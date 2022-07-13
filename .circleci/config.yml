@@ -100,14 +100,14 @@ jobs:
         - image: circleci/node:13.8.0
     steps:
       - checkout
-        - restore_cache: 
+      - restore_cache: 
             key: frontend-build
-        - run: 
-            name: Run frontend scan
-            command: |
-                cd frontend
-                npm install
-                npm audit --audit-level=critical
+      - run: 
+          name: Run frontend scan
+          command: |
+              cd frontend
+              npm install
+              npm audit --audit-level=critical
 
   scan-backend:
     docker:
