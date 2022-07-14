@@ -131,7 +131,7 @@ jobs:
       - image: cimg/aws:2022.6.1
     steps:
       - checkout
-      - apt install tar gzip
+      - apt install tar.gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
