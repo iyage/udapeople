@@ -128,10 +128,10 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: cimg/aws:2022.6.1
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - apt install tar.gzip
+      - yum install tar.gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
