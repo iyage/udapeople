@@ -131,8 +131,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      # - sudo apt install gzip
-      # - sudo apt install tar
+      - yum -y install gzip
+      - yum -y install tar
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -148,8 +148,8 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --tags project=your-tag \
-              # --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:8}" \
-              # --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:8}"  
+              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:8}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:8}"  
               exit 1
   #     - run:
   #         name: Add back-end ip to ansible inventory
