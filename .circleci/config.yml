@@ -128,7 +128,7 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/aws:2022.6.1
     steps:
       - checkout
       - yum -y install gzip
