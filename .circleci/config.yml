@@ -167,7 +167,8 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            ansible-playbook -i inventory.txt main.yml --private-key=~/applications/"ssh certificate"/udacity-ansible.pem
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml --private-key=~/applications/"ssh certificate"/udacity-ansible.pem
       - destroy-environment     
 
   # run-migrations:
