@@ -148,26 +148,26 @@ jobs:
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:8}"  
       - destroy-environment    
 
-  # configure-infrastructure:
-  #   docker:
-  #     - image: python:3.7-alpine3.11
-  #   steps:
-  #     - checkout
-  #     - add_ssh_keys:
-  #         fingerprints: "34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"
-  #     - persist_to_workspace:
-  #         root: ~/
-  #         paths:
-  #           - project/.circleci/ansible/inventory.txt
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #             apk add --update ansible 
-  #     - run:
-  #         name: Add back-end ip to ansible inventory
-  #         command: |
-  #           cd .circleci/ansible
-  #           ansible-playbook -i inventory.txt configure-server.yml --private-key=~/applications/"ssh certificate"/udacity-ansible.pem    
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: "34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
+      - run:
+          name: Install dependencies
+          command: |
+              apk add --update ansible 
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml --private-key=~/applications/"ssh certificate"/udacity-ansible.pem    
 
   # run-migrations:
   #   docker:
@@ -300,8 +300,8 @@ workflows:
           filters:
             branches:
               only: [main]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
