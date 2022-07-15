@@ -12,7 +12,8 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    - name:  yum  -y install python
+    - name:   install python
+      raw: yum -y install python
 
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
