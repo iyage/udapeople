@@ -132,7 +132,7 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
-            ls ~
+            ls  -a ~/
             yum  -y install tar gzip
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
@@ -168,7 +168,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             cd .circleci/ansible
-            ansible-playbook -i inventory.txt configure-server.yml --private-key=~/project/udacity-ansible.pem    
+            ansible-playbook -i inventory.txt configure-server.yml --private-key=udacity-ansible.pem    
 
   # run-migrations:
   #   docker:
