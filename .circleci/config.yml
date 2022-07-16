@@ -176,8 +176,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run migrations
-          command: |
+         name: Run migrations.
+         command: |
                  cd backend
                  npm install
      # Run and save the migration output
