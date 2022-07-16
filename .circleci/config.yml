@@ -197,13 +197,9 @@ jobs:
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
       - run:
-        name: install targzip
+        name: install python.
         command: |
-            yum -y install tar gzip
-      # - run:
-      #   name: install python.
-      #   command: |
-      #       yum -y install python3
+            yum -y install python3
       # - run:
       #   name: install  nogdejs
       #   command: |
