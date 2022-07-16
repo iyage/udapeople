@@ -196,20 +196,22 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
+    steps:
       - run:
         name: install tar gzip.
         command: |
             yum -y install tar gzip
+    steps:
       - run:
         name: install python.
         command: |
             yum -y install python3
+    steps:
       - run:
         name: install  nogdejs
         command: |
             yum -y install nodejs@13.8.0
-            # yum -y install npm
-            # yum -y install ansible
+    steps:
       - run:
         name: install  ansible.
         command: |
