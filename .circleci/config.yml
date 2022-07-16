@@ -194,12 +194,13 @@ jobs:
        - image: amazon/aws-cli
     steps:
       - checkout
+      - run:
+          name: install dependecies
+          command: |
+            yum -y install tar gzip
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
       - run:
-          name: Get backend url
-          command: |
-            yum -y install tar gzip
             yum -y install python3
             yum -y install nodejs
             export API_URL="http://34.230.42.183:3030"
