@@ -197,21 +197,9 @@ jobs:
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
       - run:
-        name: install python.
-        command: |
-            yum -y install python3
-      # - run:
-      #   name: install  nogdejs
-      #   command: |
-      #       yum -y install nodejs@13.8.0
-      # - run:
-      #   name: install  ansible.
-      #   command: |
-      #       yum -y install ansible 
-      - run:
           name: Get backend url
           command: |
-            export API_URL="http://${BACKEND_IP}:3030"
+            export API_URL="http://34.230.42.183:3030"
             echo "${API_URL}"
   #     - run:
   #         name: Deploy frontend objects
