@@ -199,9 +199,9 @@ jobs:
           command: |
             yum -y install tar gzip
             yum -y install python3
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-            -v nvm
-            nvm install node
+            yum -y install curl
+            curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+            yum install -y nodejs
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
       - run:
