@@ -197,7 +197,7 @@ jobs:
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
       - run:
-        name: install tar gzip.
+        name: install targzip
         command: |
             yum -y install tar gzip
       # - run:
