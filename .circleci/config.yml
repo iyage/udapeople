@@ -203,7 +203,7 @@ jobs:
             curl -sL https://rpm.nodesource.com/setup_16.x | bash -
             yum install -y nodejs
       - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory.txt
+          at: /project/.circleci/ansible/inventory.txt
       - run:
             export API_URL="http://34.230.42.183:3030"
             echo "${API_URL}"
