@@ -191,24 +191,24 @@ jobs:
              fi
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+       - image: amazon/aws-cli
     steps:
-       - checkout
+      - checkout
       - attach_workspace:
-            at: ~/project/.circleci/ansible/inventory.txt
+          at: ~/project/.circleci/ansible/inventory.txt
       - run:
-          name: install python
-          command: |
-              yum -y install tar gzip
-              yum -y install python3
+        name: install python
+        command: |
+            yum -y install tar gzip
+            yum -y install python3
       - run:
-          name: Install  nodejs
-          command: |
-            yum -y install nodejs13.8.0
+        name: Install  nodejs
+        command: |
+          yum -y install nodejs13.8.0
       - run:
-          name: Install npm
-          command: |
-             yum -y install npm
+        name: Install npm
+        command: |
+            yum -y install npm
       - run:
           name: Install ansible
           command: |
@@ -216,7 +216,6 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            # your code here
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
   #     - run:
