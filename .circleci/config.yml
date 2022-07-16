@@ -194,12 +194,12 @@ jobs:
        - image: amazon/aws-cli
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory.txt
       - run:
         name: install python.
         command: |
             yum -y install python3
+      - attach_workspace:
+          at: ~/project/.circleci/ansible/inventory.txt
       # - run:
       #   name: install  nogdejs
       #   command: |
