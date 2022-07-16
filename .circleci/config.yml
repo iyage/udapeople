@@ -205,7 +205,7 @@ jobs:
       - attach_workspace:
           at: /project/.circleci/ansible/inventory.txt
       - run:
-            export API_URL="http://34.230.42.183:3030"
+            export API_URL=http://34.230.42.183:3030
             echo "${API_URL}"
   #     - run:
   #         name: Deploy frontend objects
