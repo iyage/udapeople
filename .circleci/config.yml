@@ -219,7 +219,7 @@ jobs:
                     
   deploy-backend:
     docker:
-       - image: amazon/aws-cli
+       - image: cimg/aws
     steps:
       - checkout
       - add_ssh_keys:
@@ -227,12 +227,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum -y install tar gzip
-            yum -y install python3
-            yum -y install curl
-            curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-            yum install -y nodejs
-            python3 -m pip install --user ansible
+            apt-get install tar gzip
+            apt-get installpython3
+            apt-get install -y nodejs
+            apt-get install ansible
+            ansible --version
 
       - attach_workspace:
           at: /project/.circleci/ansible/inventory.txt
