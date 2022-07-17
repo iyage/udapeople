@@ -230,7 +230,7 @@ jobs:
             apk add --update  tar gzip
             apk add --update  python3
             apk add --update ansible 
-            pk add --update nodejs npm
+            apk add --update nodejs npm
             # curl -sL https://rpm.nodesource.com/setup_16.x | bash -
             # yum install -y nodejs
             ansible --version
