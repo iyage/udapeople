@@ -1,2 +1,1 @@
 [web]
-ec2-54-210-9-9.compute-1.amazonaws.com
