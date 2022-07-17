@@ -228,7 +228,7 @@ jobs:
           name: Install dependencies
           command: |
             apt-get install tar gzip
-            apt-get installpython3
+            apt-get install python3
             apt-get install -y nodejs
             apt-get install ansible
             ansible --version
