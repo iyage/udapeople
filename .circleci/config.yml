@@ -233,7 +233,6 @@ jobs:
             curl -sL https://rpm.nodesource.com/setup_16.x | bash -
             yum install -y nodejs
             python3 -m pip install --user ansible
-            ansible --version
 
       - attach_workspace:
           at: /project/.circleci/ansible/inventory.txt
