@@ -219,7 +219,7 @@ jobs:
                     
   deploy-backend:
     docker:
-       - image: cimg/aws:2022.6.1
+       - image: ansible/ansible:ubuntu1604py3
     steps:
       - checkout
       - add_ssh_keys:
