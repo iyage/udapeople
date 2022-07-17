@@ -291,7 +291,7 @@ jobs:
 
 # cleanup:
 #     docker:
-#       # Docker image here
+#       # #Docker image here
 #     steps:
 #       # Checkout code from git
 #       - run:
@@ -337,6 +337,7 @@ workflows:
           requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
+      # smoke test
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
