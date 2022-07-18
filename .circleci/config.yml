@@ -186,7 +186,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             cd .circleci/ansible
-            ansible-playbook -i /tmp/workspace/.circleci/ansible/inventory.txt configure-server.yml --private-key=udacity.pem    
+            ansible-playbook -i  inventory.txt configure-server.yml --private-key=udacity.pem    
 
   run-migrations:
     docker:
