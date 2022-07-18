@@ -161,7 +161,7 @@ jobs:
           command: |
             echo  ec2-54-91-140-172.compute-1.amazonaws.com >> .circleci/ansible/inventory.txt
             cat  .circleci/ansible/inventory.txt
-            mkdir tmp
+            mkdir -p tmp
       - persist_to_workspace:
           root: tmp
           paths:
