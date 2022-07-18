@@ -152,6 +152,8 @@ jobs:
           command: |
             echo  ec2-54-91-140-172.compute-1.amazonaws.com >> .circleci/ansible/inventory.txt
             cat  .circleci/ansible/inventory.txt
+            pwd
+            midir  project
       - persist_to_workspace:
           root: ~/
           paths:
