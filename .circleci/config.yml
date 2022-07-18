@@ -132,6 +132,7 @@ jobs:
                 npm audit --audit-level=critical
 
   deploy-infrastructure:
+    # working_directory: ~/project/tmp
     docker:
       - image: amazon/aws-cli
     steps:
@@ -160,11 +161,10 @@ jobs:
           command: |
             echo  ec2-54-91-140-172.compute-1.amazonaws.com >> .circleci/ansible/inventory.txt
             cat  .circleci/ansible/inventory.txt
-            mkdir -p tmp
       - persist_to_workspace:
-          root: project/tmp
+          root: ~/
           paths:
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - destroy-environment  
 
   configure-infrastructure:
@@ -175,8 +175,8 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"]
       - attach_workspace:
-          at: ~/project/tmp/.circleci/ansible/inventory.txt
-      - run: cat ~/project/tmp/.circleci/ansible/inventory.txt
+          at: ~/
+      - run: cat ~/project/.circleci/ansible/inventory.txt
       
       - run:
           name: Install dependencies
