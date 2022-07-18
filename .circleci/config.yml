@@ -140,7 +140,6 @@ jobs:
           name: Ensure back-end infrastructure exists
           command: |
             ls  -a ~/
-            mkdir -m tmp
             yum  -y install tar gzip
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
