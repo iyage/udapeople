@@ -1,4 +1,12 @@
 version: 2.1
+executors:
+  my-executor:
+    docker:
+      - image: buildpack-deps:jessie
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    working_directory: /tmp
 
 commands:
   destroy-environment:
@@ -128,11 +136,11 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - working_directory: /tmp
       - run:
           name: Ensure back-end infrastructure exists
           command: |
             ls  -a ~/
+            mkdir -m tmp
             yum  -y install tar gzip
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
@@ -151,11 +159,11 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            mkdir -p workspace
             echo  ec2-54-91-140-172.compute-1.amazonaws.com >> .circleci/ansible/inventory.txt
             cat  .circleci/ansible/inventory.txt
+            mkdir tmp
       - persist_to_workspace:
-          root: workspace
+          root: tmp
           paths:
             - .circleci/ansible/inventory.txt
       - destroy-environment  
@@ -168,8 +176,8 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"]
       - attach_workspace:
-          at: /tmp/workspace/.circleci/ansible/inventory.txt
-      - run: cat /tmp/workspace/.circleci/ansible/inventory.txt
+          at: /tmp/.circleci/ansible/inventory.txt
+      - run: cat /tmp/.circleci/ansible/inventory.txt
       
       - run:
           name: Install dependencies
