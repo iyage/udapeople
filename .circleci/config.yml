@@ -162,7 +162,7 @@ jobs:
             cat  .circleci/ansible/inventory.txt
             mkdir -p tmp
       - persist_to_workspace:
-          root: tmp
+          root: project/tmp
           paths:
             - /tmp/.circleci/ansible/inventory.txt
       - destroy-environment  
