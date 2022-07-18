@@ -164,7 +164,7 @@ jobs:
       - persist_to_workspace:
           root: project/tmp
           paths:
-            - /tmp/.circleci/ansible/inventory.txt
+            - .circleci/ansible/inventory.txt
       - destroy-environment  
 
   configure-infrastructure:
