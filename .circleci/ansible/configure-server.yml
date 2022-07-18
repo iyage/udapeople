@@ -12,9 +12,9 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    - name:   install python
-      shell: apt -y update && apt install -y python3
-      changed_when: false
+    - name: "install python"
+      apt:
+        name: ["python3"]
 
   # Get the environment variables from CircleCI and add to the EC2 instance in aws
   environment:
