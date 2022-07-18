@@ -13,8 +13,7 @@
 
   pre_tasks:
     - name:   install python
-      become: true
-         apt -y update && apt install -y python3
+      shell: apt -y update && apt install -y python3
       changed_when: false
 
   # Get the environment variables from CircleCI and add to the EC2 instance in aws
