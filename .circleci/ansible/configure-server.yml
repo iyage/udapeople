@@ -1,6 +1,6 @@
 ---
 - name: configuration play 
-  hosts: ec2-54-91-140-172.compute-1.amazonaws.com
+  hosts: ec2-54-91-93-210.compute-1.amazonaws.com
   user: ubuntu
   become: yes
   become_method: sudo
@@ -12,16 +12,11 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    # - name: "wait 600 seconds for target connection to become reachable/usable."
-    #   ansible.builtin.wait_for:
-    #      timeout: 600
+    - name: "wait 600 seconds for target connection to become reachable/usable."
+      ansible.builtin.wait_for:
+         timeout: 600
     - name: "install dependecies"
-      yum -y install tar gzip
-      yum -y install python3
-      yum -y install curl
-      curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-      yum install -y nodejs
-
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
   # Get the environment variables from CircleCI and add to the EC2 instance in aws
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
