@@ -17,6 +17,7 @@
          timeout: 120
     - name: "install dependecies"
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
+           apt -y install nodejs
 
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
