@@ -1,7 +1,7 @@
 
 - name: Extract backend files into /etc/node_project
   unarchive:
-    remote_src: /root/project/artifact.tar.gz 
+    src: /root/project/artifact.tar.gz 
     dest: /home/ubuntu/node_project
   register: untar
     
