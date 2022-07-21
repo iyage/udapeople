@@ -2,7 +2,7 @@
 - name: Extract backend files into /etc/node_project
   unarchive:
     src: /root/project/artifact.tar.gz 
-    dest: /home/ubuntu/node_project
+    dest: /home/ubuntu
   register: untar
     
 # - name: "add node exporter configuration."
