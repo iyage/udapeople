@@ -211,7 +211,7 @@ jobs:
       - attach_workspace:
           at: /project/.circleci/ansible/inventory.txt
       - run:
-            export BACKEND_IP="54.144.122.51"
+            export BACKEND_IP="34.239.108.72"
             export API_URL="http://${BACKEND_IP}:3030"
             echo  ${API_URL} 
       - run:
