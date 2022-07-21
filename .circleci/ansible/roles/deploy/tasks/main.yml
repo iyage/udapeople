@@ -1,10 +1,10 @@
 
-- name: "unzip tar file"
+- name: Extract backend files into /etc/node_project
   unarchive:
-    src: "artifact.tar.gz"
+    src: /tmp/artifact.tar.gz 
+    dest: /home/ubuntu/node_project
+  register: untar
     # https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz
-    dest: /tmp
-    remote_src: yes
 # - name: "move binary to /usr/local/bin."
 #   become: true
 #   copy:
