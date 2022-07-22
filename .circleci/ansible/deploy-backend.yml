@@ -3,7 +3,7 @@
 - name: configuration play 
   hosts: ec2-34-239-108-72.compute-1.amazonaws.com
   user: ubuntu
-  become: true
+  become: truec
   become_method: sudo
   become_user: root  
   gather_facts: false
