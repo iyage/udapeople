@@ -1,6 +1,6 @@
 ---
 - name: configuration play 
-  hosts: ec2-34-230-59-143.compute-1.amazonaws.com
+  hosts: ec2-54-210-233-163.compute-1.amazonaws.com
   user: ubuntu
   become: yes
   become_method: sudo
