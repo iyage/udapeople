@@ -1,7 +1,7 @@
 ---
 
 - name: configuration play 
-  hosts: ec2-34-239-108-72.compute-1.amazonaws.com
+  hosts: ec2-34-230-59-143.compute-1.amazonaws.com
   user: ubuntu
   become: truec
   become_method: sudo
