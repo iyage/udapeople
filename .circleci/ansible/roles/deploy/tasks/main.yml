@@ -11,11 +11,3 @@
         npm install
         pm2 stop default
         pm2 start npm -- start
-
-# - name: "enable node_exporter service"
-#   become: true
-#   systemd:
-#     state: restarted
-#     daemon_reload: yes
-#     name: node_exporter
-#     enabled: yes

@@ -145,204 +145,204 @@ jobs:
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:8}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:8}"  
       - destroy-environment    
-      - run:
-          name: Add back-end ip to ansible inventory
-          command: |
-            cat  .circleci/ansible/inventory.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
-      - destroy-environment  
+#       - run:
+#           name: Add back-end ip to ansible inventory
+#           command: |
+#             cat  .circleci/ansible/inventory.txt
+#       - persist_to_workspace:
+#           root: ~/
+#           paths:
+#             - project/.circleci/ansible/inventory.txt
+#       - destroy-environment  
 
-  configure-infrastructure:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"]
-      - attach_workspace:
-          at: ~/
-      - run: cat ~/project/.circleci/ansible/inventory.txt
-      
-      - run:
-          name: Install dependencies
-          command: |
-              apk add --update ansible 
-      - run:
-          name: Add back-end ip to ansible inventory
-          command: |
-            cd .circleci/ansible
-            ansible-playbook -i  inventory.txt configure-server.yml --private-key=udacity.pem    
-
-  run-migrations:
-    docker:
-       - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - run:
-         name: Run migrations.
-         command: |
-            cd backend
-            npm install
-            npm i migrations
-            npm run migrations > migrations_dump.txt
-      - run:
-          name: Send migration results to memstash
-          command: |
-             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
-             then
-               curl https://kvdb.io/Xs9T8qpxQNKn2HZA9yGGaj/migration_${CIRCLE_WORKFLOW_ID:0:8}  -d '1'
-             fi
-  deploy-frontend:
-    docker:
-       - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: install dependecies
-          command: |
-            yum -y install tar gzip
-            yum -y install python3
-            yum -y install curl
-            curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-            yum install -y nodejs
-      - attach_workspace:
-          at: /project/.circleci/ansible/inventory.txt
-      - run:
-            export BACKEND_IP="34.239.108.72"
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo  ${API_URL} 
-      - run:
-          name: Deploy frontend objects
-          command: |
-            cd frontend
-            npm install
-            npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:8}".tar.gz dist
-            aws s3 cp dist s3://udapeople-mr1vpsg8ulo9ie4nfxkw --recursive     
-                    
-  deploy-backend:
-    docker:
-       - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"]
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update  tar gzip
-            apk add --update  python3
-            apk add --update ansible 
-            apk add --update nodejs npm
-            # curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-            # yum install -y nodejs
-            ansible --version
-
-      - attach_workspace:
-          at: /project/.circleci/ansible/inventory.txt
-      - run:
-          name: Deploy backend
-          command: |
-           cd backend
-           npm i
-           npm run build
-           cd ..
-           # Zip the directory
-           tar -C backend -czvf artifact.tar.gz .
-           ls .
-           cd .circleci/ansible
-           pwd
-           echo "Contents  of the inventory.txt file is -------"
-           cat inventory.txt
-           ansible-playbook -i inventory.txt deploy-backend.yml --private-key=udacity.pem 
-
-  # smoke-test:
-  #   docker:
-  #     # Lightweight Docker image 
-  #   steps:
-  #     # Checkout code from git
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Get backend url
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Backend smoke test.
-  #         command: |
-  #           # your code here
-  #     - run:
-  #         name: Frontend smoke test.
-  #         command: |
-  #           # your code here
-  #     # Here's where you will add some code to rollback on failure  
-
-#   cloudfront-update:
+#   configure-infrastructure:
 #     docker:
-#       # Docker image here that supports AWS CLI
+#       - image: python:3.7-alpine3.11
 #     steps:
-#       # Checkout code from git
+#       - checkout
+#       - add_ssh_keys:
+#           fingerprints: ["34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"]
+#       - attach_workspace:
+#           at: ~/
+#       - run: cat ~/project/.circleci/ansible/inventory.txt
+      
 #       - run:
 #           name: Install dependencies
 #           command: |
-#             # your code he
+#               apk add --update ansible 
 #       - run:
-#           name: Update cloudfront distribution
+#           name: Add back-end ip to ansible inventory
 #           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+#             cd .circleci/ansible
+#             ansible-playbook -i  inventory.txt configure-server.yml --private-key=udacity.pem    
 
-# cleanup:
+#   run-migrations:
 #     docker:
-#       # #Docker image here
+#        - image: circleci/node:13.8.0
 #     steps:
-#       # Checkout code from git
+#       - checkout
 #       - run:
-#           name: Get old stack workflow id
-#           command: |
-#             # your code here
-#             export OldWorkflowID="the id here"
-#             export STACKS=[] #put the list of stacks here
+#          name: Run migrations.
+#          command: |
+#             cd backend
+#             npm install
+#             npm i migrations
+#             npm run migrations > migrations_dump.txt
 #       - run:
-#           name: Remove old stacks and files
+#           name: Send migration results to memstash
 #           command: |
-#             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-#             then
-#               # your code here
-#             fi
+#              if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
+#              then
+#                curl https://kvdb.io/Xs9T8qpxQNKn2HZA9yGGaj/migration_${CIRCLE_WORKFLOW_ID:0:8}  -d '1'
+#              fi
+#   deploy-frontend:
+#     docker:
+#        - image: amazon/aws-cli
+#     steps:
+#       - checkout
+#       - run:
+#           name: install dependecies
+#           command: |
+#             yum -y install tar gzip
+#             yum -y install python3
+#             yum -y install curl
+#             curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+#             yum install -y nodejs
+#       - attach_workspace:
+#           at: /project/.circleci/ansible/inventory.txt
+#       - run:
+#             export BACKEND_IP="34.239.108.72"
+#             export API_URL="http://${BACKEND_IP}:3030"
+#             echo  ${API_URL} 
+#       - run:
+#           name: Deploy frontend objects
+#           command: |
+#             cd frontend
+#             npm install
+#             npm run build
+#             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:8}".tar.gz dist
+#             aws s3 cp dist s3://udapeople-mr1vpsg8ulo9ie4nfxkw --recursive     
+                    
+#   deploy-backend:
+#     docker:
+#        - image: python:3.7-alpine3.11
+#     steps:
+#       - checkout
+#       - add_ssh_keys:
+#           fingerprints: ["34:85:32:41:35:e1:5d:72:97:34:e8:09:b3:26:2b:90"]
+#       - run:
+#           name: Install dependencies
+#           command: |
+#             apk add --update  tar gzip
+#             apk add --update  python3
+#             apk add --update ansible 
+#             apk add --update nodejs npm
+#             # curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+#             # yum install -y nodejs
+#             ansible --version
+
+#       - attach_workspace:
+#           at: /project/.circleci/ansible/inventory.txt
+#       - run:
+#           name: Deploy backend
+#           command: |
+#            cd backend
+#            npm i
+#            npm run build
+#            cd ..
+#            # Zip the directory
+#            tar -C backend -czvf artifact.tar.gz .
+#            ls .
+#            cd .circleci/ansible
+#            pwd
+#            echo "Contents  of the inventory.txt file is -------"
+#            cat inventory.txt
+#            ansible-playbook -i inventory.txt deploy-backend.yml --private-key=udacity.pem 
+
+#   # smoke-test:
+#   #   docker:
+#   #     # Lightweight Docker image 
+#   #   steps:
+#   #     # Checkout code from git
+#   #     - run:
+#   #         name: Install dependencies
+#   #         command: |
+#   #           # your code here
+#   #     - run:
+#   #         name: Get backend url
+#   #         command: |
+#   #           # your code here
+#   #     - run:
+#   #         name: Backend smoke test.
+#   #         command: |
+#   #           # your code here
+#   #     - run:
+#   #         name: Frontend smoke test.
+#   #         command: |
+#   #           # your code here
+#   #     # Here's where you will add some code to rollback on failure  
+
+# #   cloudfront-update:
+# #     docker:
+# #       # Docker image here that supports AWS CLI
+# #     steps:
+# #       # Checkout code from git
+# #       - run:
+# #           name: Install dependencies
+# #           command: |
+# #             # your code he
+# #       - run:
+# #           name: Update cloudfront distribution
+# #           command: |
+# #             # your code here
+# #       # Here's where you will add some code to rollback on failure  
+
+# # cleanup:
+# #     docker:
+# #       # #Docker image here
+# #     steps:
+# #       # Checkout code from git
+# #       - run:
+# #           name: Get old stack workflow id
+# #           command: |
+# #             # your code here
+# #             export OldWorkflowID="the id here"
+# #             export STACKS=[] #put the list of stacks here
+# #       - run:
+# #           name: Remove old stacks and files
+# #           command: |
+# #             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+# #             then
+# #               # your code here
+# #             fi
             
 
-workflows:
-  default:
-    jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
+# workflows:
+#   default:
+#     jobs:
+#       - build-frontend
+#       - build-backend
+#       - test-frontend:
+#           requires: [build-frontend]
+#       - test-backend:
+#           requires: [build-backend]
+#       - scan-backend:
+#           requires: [build-backend]
+#       - scan-frontend:
+#           requires: [build-frontend]
+#       - deploy-infrastructure:
+#           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+#           filters:
+#             branches:
+#               only: [main]
+#       - configure-infrastructure:
+#           requires: [deploy-infrastructure]
+#       - run-migrations:
+#           requires: [configure-infrastructure]
+#       - deploy-frontend:
+#           requires: [run-migrations]
+#       - deploy-backend:
+#           requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # smoke test
