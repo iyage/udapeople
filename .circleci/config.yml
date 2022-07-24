@@ -212,7 +212,7 @@ jobs:
           at: /project/.circleci/ansible/inventory.txt
       - run:
             export BACKEND_IP="54.197.7.46"
-            export API_URL="http://${BACKEND_IP}:3030"
+            export API_URL="http://54.197.7.46:3030"
             echo  ${API_URL} 
             cat  ${API_URL}
       - run:
@@ -267,14 +267,14 @@ jobs:
           name: Install dependencies
           command: |
            yum -y install curl
-      # - run:
-      #     name: Get backend url
-      #     command: |
-      #        URL="ec2-54-197-7-46.compute-1.amazonaws.com"
+      - run:
+          name: Get backend url
+          command: |
+             URL="ec2-54-197-7-46.compute-1.amazonaws.com"
       - run:
           name: Backend smoke test.
           command: |
-              if curl -s --head 
+              if curl -s --head  http://ec2-54-197-7-46.compute-1.amazonaws.com/
               then
                  return 0
               else
