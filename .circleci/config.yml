@@ -270,11 +270,11 @@ jobs:
       - run:
           name: Get backend url
           command: |
-             URL="ec2-54-197-7-46.compute-1.amazonaws.com"
+             URL="ec2-44-203-138-155.compute-1.amazonaws.com:3030"
       - run:
           name: Backend smoke test.
           command: |
-              if curl -s --head  http://ec2-54-197-7-46.compute-1.amazonaws.com/
+              if curl -s --head  http://ec2-44-203-138-155.compute-1.amazonaws.com:3030
               then
                  return 0
               else
